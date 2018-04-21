@@ -1,4 +1,4 @@
-package com.blink.services;
+package com.blink.services.clientService;
 
 
 import com.blink.Entities.Client;
@@ -26,5 +26,9 @@ public class ClientService implements ClientServiceInterface{
         if(service == null || date == null)
             return null;
         return clientDAO.getBusyTimesforService(service, date);
+    }
+
+    public long getIdClientByEmail(String email){
+        return clientDAO.getIdClientByEmail(email);
     }
 }

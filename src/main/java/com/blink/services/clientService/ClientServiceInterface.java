@@ -1,4 +1,4 @@
-package com.blink.services;
+package com.blink.services.clientService;
 
 import com.blink.Entities.Client;
 
@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ClientServiceInterface {
     void addClient(Client client);
-    public List<Time> getBusyTimesforService(String service, Date date);
-
+    List<Time> getBusyTimesforService(String service, Date date);
+    long getIdClientByEmail(String email);
 }

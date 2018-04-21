@@ -13,7 +13,8 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     <mvc:resources mapping="/resources/**" location="/resources/" />
 
     <ctx:annotation-config/>
-    <ctx:component-scan base-package="com.blink.controllers, com.blink.Entities, com.blink.services"/>
+    <ctx:component-scan base-package="com.blink.controllers, com.blink.Entities,
+    com.blink.services.blinkServices, com.blink.services.clientService"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">

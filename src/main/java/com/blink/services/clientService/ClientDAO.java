@@ -1,12 +1,10 @@
-package com.blink.services;
+package com.blink.services.clientService;
 
 import com.blink.Entities.Client;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
@@ -18,13 +16,21 @@ public class ClientDAO implements ClientDAOInterface{
     @PersistenceContext
     private EntityManager entityManager;
 
+    //adding new client
     public void addClient(Client client){
-        //check If client is already registrated in DataBase
+        //checking If client is already registered in DataBase
         if(clientIsInBase(client.getEmail()) == 0){
             entityManager.persist(client);
         }
     }
 
+    //Get id_client by email
+    public long getIdClientByEmail(String email){
+        String query = "SELECT id_client FROM Clients where email = '" + email + "'";
+        Object id = entityManager.createNativeQuery(query).getSingleResult();
+        int id_client = (Integer) id;
+        return id_client;
+    }
 
     public List<Time> getBusyTimesforService(String service, Date date){
         List<Time> times = null;

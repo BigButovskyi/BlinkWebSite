@@ -1,7 +1,8 @@
 package com.blink.controllers;
 
 import com.blink.Entities.Client;
-import com.blink.services.ClientServiceInterface;
+import com.blink.services.blinkServices.BlinkServiceInterface;
+import com.blink.services.clientService.ClientServiceInterface;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,8 @@ public class RegistrController {
 
     @Autowired
     private ClientServiceInterface clientService;
+    @Autowired
+    private BlinkServiceInterface blinkService;
 
     @RequestMapping(value = "/registration/{service}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Time> getBusyTimesforService
@@ -29,8 +32,7 @@ public class RegistrController {
         return null;
     }
 
-
-    //Доделать json объект принимать должен
+    //Adding client and reservation
     @RequestMapping(value = "/registration/addClientAndReservations", method = RequestMethod.POST, produces = "application/json")
     public void addClientAndReservations(@RequestBody String string) throws IOException, ParseException {
 
@@ -43,12 +45,15 @@ public class RegistrController {
         simpleDateFormat = new SimpleDateFormat("hh:mm");
         long ms = simpleDateFormat.parse(jsonMapper.getTime()).getTime();
         Time time = new Time(ms);
-        //Registration
+        //!!!!Registration
+        //Adding client to DB
         Client client = jsonMapper.getClient();
         clientService.addClient(client);
+        //Adding particular service
+        long id_client = clientService.getIdClientByEmail(client.getEmail());
+        blinkService.addService(jsonMapper.getService(), date, time, id_client);
 
-        String service = jsonMapper.getService();
-
+        //        return clientService.getBusyTimesforService(service, date);
     }
 
 }

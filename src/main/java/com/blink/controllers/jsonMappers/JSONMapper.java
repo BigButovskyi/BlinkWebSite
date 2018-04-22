@@ -1,4 +1,4 @@
-package com.blink.controllers;
+package com.blink.controllers.jsonMappers;
 
 import com.blink.Entities.Client;
 

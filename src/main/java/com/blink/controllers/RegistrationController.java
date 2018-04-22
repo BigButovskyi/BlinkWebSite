@@ -1,6 +1,7 @@
 package com.blink.controllers;
 
 import com.blink.Entities.Client;
+import com.blink.controllers.jsonMappers.JSONMapper;
 import com.blink.services.blinkServices.BlinkServiceInterface;
 import com.blink.services.clientService.ClientServiceInterface;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/registration/*")
-public class RegistrController {
+public class RegistrationController {
 
     @Autowired
     private ClientServiceInterface clientService;

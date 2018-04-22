@@ -14,7 +14,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 
     <ctx:annotation-config/>
     <ctx:component-scan base-package="com.blink.controllers, com.blink.Entities,
-    com.blink.services.blinkServices, com.blink.services.clientService"/>
+    com.blink.services.blinkServices, com.blink.services.clientService, com.blink.controllers.jsonMappers"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">

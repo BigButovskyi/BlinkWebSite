@@ -10,4 +10,5 @@ public interface ClientDAOInterface {
     void addClient(Client client);
     List<Time> getBusyTimesforService(String service, Date date);
     long getIdClientByEmail(String email);
+    long getIdClientByPhone(String phone);
 }

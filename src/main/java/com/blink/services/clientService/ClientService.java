@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Transactional
@@ -31,4 +32,9 @@ public class ClientService implements ClientServiceInterface{
     public long getIdClientByEmail(String email){
         return clientDAO.getIdClientByEmail(email);
     }
+
+    public long getIdClientByPhone(String phone){
+        return clientDAO.getIdClientByPhone(phone);
+    }
+
 }

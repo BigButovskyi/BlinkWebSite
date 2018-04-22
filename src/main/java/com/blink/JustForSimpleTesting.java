@@ -9,9 +9,8 @@ import java.util.Map;
 
 public class JustForSimpleTesting {
     public static void main(String[] args) throws ParseException {
-
-        Date date = new Date(14,15,22);
-        String s = date.toString();
-        System.out.println(s);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = new Date(simpleDateFormat.parse("2012/12/01").getTime());
+        System.out.println(date);
     }
 }

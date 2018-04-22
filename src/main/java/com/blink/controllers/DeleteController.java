@@ -32,4 +32,10 @@ public class DeleteController {
                 blinkService.getClientReservations(id_client)
                 :null;
     }
+
+    @RequestMapping(value = "/delete/removeReservation", method = RequestMethod.POST, produces = "application/json")
+    public void deleteClientReservation(@RequestBody String json){
+
+    }
+
 }

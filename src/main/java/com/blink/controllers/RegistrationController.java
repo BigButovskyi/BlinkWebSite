@@ -2,6 +2,7 @@ package com.blink.controllers;
 
 import com.blink.Entities.Client;
 import com.blink.controllers.jsonMappers.JSONMapper;
+import com.blink.controllers.jsonMappers.JSONServiceDateMapper;
 import com.blink.services.blinkServices.BlinkServiceInterface;
 import com.blink.services.clientService.ClientServiceInterface;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -25,12 +26,16 @@ public class RegistrationController {
     @Autowired
     private BlinkServiceInterface blinkService;
 
-    @RequestMapping(value = "/registration/{service}", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Time> getBusyTimesforService
-            (@PathVariable("service") String service, @RequestBody Date date) throws IOException {
+    @RequestMapping(value = "/registration/getBusyTimesForService", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody List<Time> getBusyTimesForService(@RequestBody String json) throws IOException, ParseException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONServiceDateMapper jsonServiceDateMapper = objectMapper.readValue(json, JSONServiceDateMapper.class);
+        //Get Service from json
+        String service = jsonServiceDateMapper.getService();
+        //Get date from json
+        Date date = formatDate(jsonServiceDateMapper.getDate(), "yyyy-MM-dd");//format could be yyyy/MM/dd
 
-//        return clientService.getBusyTimesforService(service, date);
-        return null;
+        return blinkService.getBusyTimesforService(service, date);
     }
 
     //Adding client and reservation
@@ -40,12 +45,9 @@ public class RegistrationController {
         ObjectMapper objectMapper = new ObjectMapper();
         JSONMapper jsonMapper = objectMapper.readValue(string, JSONMapper.class);
         //Parsing Date
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        Date date = new Date(simpleDateFormat.parse(jsonMapper.getDate()).getTime());
+        Date date = formatDate(jsonMapper.getDate(), "yyyy-MM-dd");//format could be yyyy/MM/dd
         //Parsing Time
-        simpleDateFormat = new SimpleDateFormat("hh:mm");
-        long ms = simpleDateFormat.parse(jsonMapper.getTime()).getTime();
-        Time time = new Time(ms);
+        Time time = formatTime(jsonMapper.getTime(), "hh:mm");
         //!!!!Registration
         //Adding client to DB
         Client client = jsonMapper.getClient();
@@ -55,6 +57,18 @@ public class RegistrationController {
         blinkService.addService(jsonMapper.getService(), date, time, id_client);
 
         //        return clientService.getBusyTimesforService(service, date);
+    }
+
+    private Date formatDate(String dateString, String format) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        Date date = new Date(simpleDateFormat.parse(dateString).getTime());
+        return date;
+    }
+
+    private Time formatTime(String time, String format) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        long ms = simpleDateFormat.parse(time).getTime();
+        return new Time(ms);
     }
 
 }

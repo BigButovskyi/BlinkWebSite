@@ -9,7 +9,6 @@ import java.util.Map;
 
 public interface ClientServiceInterface {
     void addClient(Client client);
-    List<Time> getBusyTimesforService(String service, Date date);
     long getIdClientByEmail(String email);
     long getIdClientByPhone(String phone);
 }

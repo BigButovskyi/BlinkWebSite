@@ -46,25 +46,15 @@ public class ClientDAO implements ClientDAOInterface {
         return 0;
     }
 
-    public List<Time> getBusyTimesforService(String service, Date date) {
-        List<Time> times = null;
-//        Query query = entityManager.createQuery("select a.time from Masters, " +
-//                "(select count(s) as counter, time from :SERVICE s where date = :DATE group by time a" +
-//                "where (Masters.service= = :SERVICE) and (a.counter=Masters.max)");
-//        query.setParameter("SERVICE", service);
-//        query.setParameter("DATE", date);
-//        times = query.getResultList();
-
-        return times;
-    }
-
-
+    //check by email if client is in base
     private int clientIsInBaseByEmail(String email) {
         String query = "SELECT count(*)from Clients where email = '" + email + "'";
         int number = ((BigInteger) entityManager.createNativeQuery(query).getSingleResult()).intValue();
         return number;
     }
 
+
+    //check by phone if client is in base
     private int clientIsInBaseByPhone(String phone) {
         String query = "SELECT count(*)from Clients where phone = '" + phone + "'";
         int number = ((BigInteger) entityManager.createNativeQuery(query).getSingleResult()).intValue();

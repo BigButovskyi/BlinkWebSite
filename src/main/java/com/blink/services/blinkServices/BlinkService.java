@@ -10,11 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
 @Transactional
-public class BlinkService implements BlinkServiceInterface{
+public class BlinkService implements BlinkServiceInterface {
 
     @Autowired
     private NailsDAOInterface nailsDAO;
@@ -25,19 +26,19 @@ public class BlinkService implements BlinkServiceInterface{
 
     @Override
     public void addService(String service, Date date, Time time, long id_client) {
-        if(service.equals("Nails") || service.equals("nails")){
+        if (service.equals("Nails") || service.equals("nails")) {
             Nails nails = new Nails();
             nails.setDate(date);
             nails.setTime(time);
             nails.setId_client(id_client);
             nailsDAO.addService(nails);
-        }else if (service.equals("Brows") || service.equals("brows") || service.equals("hair") || service.equals("Hair")){
+        } else if (service.equals("Brows") || service.equals("brows") || service.equals("hair") || service.equals("Hair")) {
             Brows brows = new Brows();
             brows.setDate(date);
             brows.setTime(time);
             brows.setId_client(id_client);
             browsDAO.addService(brows);
-        }else{
+        } else {
             MakeUp makeUp = new MakeUp();
             makeUp.setDate(date);
             makeUp.setTime(time);
@@ -47,11 +48,25 @@ public class BlinkService implements BlinkServiceInterface{
     }
 
     @Override
-    public Map<String, Object[]> getClientReservations(long id_client){
+    public Map<String, Object[]> getClientReservations(long id_client) {
         Map<String, Object[]> map = new HashMap<>();
         map.put("makeUp", makeUpDAO.getNailsReservationsByClientId(id_client));
         map.put("brows", browsDAO.getNailsReservationsByClientId(id_client));
         map.put("nails", nailsDAO.getNailsReservationsByClientId(id_client));
         return map;
+    }
+
+    @Override
+    public List<Time> getBusyTimesforService(String service, Date date) {
+        if(service == null || service.equals("") || date == null)
+            return null;
+
+        if (service.equals("Nails") || service.equals("nails")) {
+            return nailsDAO.getBusyTimesforService(date);
+        } else if (service.equals("Brows") || service.equals("brows") || service.equals("hair") || service.equals("Hair")) {
+            return browsDAO.getBusyTimesforService(date);
+        } else {
+            return makeUpDAO.getBusyTimesforService(date);
+        }
     }
 }

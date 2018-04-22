@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,5 +39,15 @@ public class BrowsDAO implements BrowsDAOInterface{
         }
 
         return array;
+    }
+
+    @Override
+    public List<Time> getBusyTimesforService(Date date) {
+        String sql = "select a.time from Masters, " +
+                "(select count(*) as counter, time from Brows where date = '" + date + "' group by time) a " +
+                "where (Masters.service='Brows') and (a.counter=Masters.max)";
+        Query query = entityManager.createNativeQuery(sql);
+        List<Time> list = query.getResultList();
+        return list;
     }
 }

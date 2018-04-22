@@ -23,12 +23,6 @@ public class ClientService implements ClientServiceInterface{
         clientDAO.addClient(client);
     }
 
-    public List<Time> getBusyTimesforService(String service, Date date){
-        if(service == null || date == null)
-            return null;
-        return clientDAO.getBusyTimesforService(service, date);
-    }
-
     public long getIdClientByEmail(String email){
         return clientDAO.getIdClientByEmail(email);
     }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.HashMap;
@@ -13,15 +14,21 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class MakeUpDAO implements MakeUpDAOInterface{
+public class MakeUpDAO implements MakeUpDAOInterface {
     @PersistenceContext
     private EntityManager entityManager;
 
     //Adding new makeUp service
-    public void addService(MakeUp makeUp) {
+    @Override
+    public void addService(Date date, Time time, long id_client) {
+        MakeUp makeUp = new MakeUp();
+        makeUp.setDate(date);
+        makeUp.setTime(time);
+        makeUp.setId_client(id_client);
         entityManager.persist(makeUp);
     }
 
+    @Override
     public Object[] getNailsReservationsByClientId(long id_client) {
         Query query = entityManager.createNativeQuery("select * from MakeUp where id_client = " + id_client + "", MakeUp.class);
         List<MakeUp> list = query.getResultList();
@@ -46,5 +53,21 @@ public class MakeUpDAO implements MakeUpDAOInterface{
         Query query = entityManager.createNativeQuery(sql);
         List<Time> list = query.getResultList();
         return list;
+    }
+
+    @Override
+    public void removeReservation(Date date, Time time, long id_client) {
+            String sql = "delete from MakeUp where date = '" + date +
+                    "' AND time = '" + time + "' AND id_client = " + id_client;
+            Query query = entityManager.createNativeQuery(sql);
+            query.executeUpdate();
+    }
+
+    private int makeUpIsInBase(Date date, Time time, long id_client) {
+        String query = "SELECT count(*)from MakeUp where date = '" + date +
+                "' AND time = '" + time + "' AND id_client = " + id_client;
+        int number = ((BigInteger) entityManager.createNativeQuery(query).getSingleResult()).intValue();
+        System.out.println(number);
+        return number;
     }
 }

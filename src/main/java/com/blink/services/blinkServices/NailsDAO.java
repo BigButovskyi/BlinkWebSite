@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.HashMap;
@@ -19,7 +20,12 @@ public class NailsDAO implements NailsDAOInterface{
     private EntityManager entityManager;
 
     //Adding new nails service
-    public void addService(Nails nails) {
+    @Override
+    public void addService(Date date, Time time, long id_client) {
+        Nails nails = new Nails();
+        nails.setDate(date);
+        nails.setTime(time);
+        nails.setId_client(id_client);
         entityManager.persist(nails);
     }
 
@@ -44,10 +50,26 @@ public class NailsDAO implements NailsDAOInterface{
     public List<Time> getBusyTimesforService(Date date) {
         String sql = "select a.time from Masters, " +
                 "(select count(*) as counter, time from Nails where date = '" + date + "' group by time) a " +
-                "where (Masters.service='nails') and (a.counter=Masters.max)";
+                "where (Masters.service='Nails') and (a.counter=Masters.max)";
         Query query = entityManager.createNativeQuery(sql);
         List<Time> list = query.getResultList();
         return list;
+    }
+
+    @Override
+    public void removeReservation(Date date, Time time, long id_client) {
+        String sql = "delete from Nails where date = '" + date +
+                "' AND time = '" + time + "' AND id_client = " + id_client;
+        Query query = entityManager.createNativeQuery(sql);
+        query.executeUpdate();
+    }
+
+    private int nailsIsInBase(Date date, Time time, long id_client) {
+        String query = "SELECT count(*)from Nails where date = '" + date +
+                "' AND time = '" + time + "' AND id_client = " + id_client;
+        int number = ((BigInteger) entityManager.createNativeQuery(query).getSingleResult()).intValue();
+        System.out.println(number);
+        return number;
     }
 
 

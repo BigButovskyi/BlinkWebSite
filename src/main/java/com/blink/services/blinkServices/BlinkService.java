@@ -27,23 +27,11 @@ public class BlinkService implements BlinkServiceInterface {
     @Override
     public void addService(String service, Date date, Time time, long id_client) {
         if (service.equals("Nails") || service.equals("nails")) {
-            Nails nails = new Nails();
-            nails.setDate(date);
-            nails.setTime(time);
-            nails.setId_client(id_client);
-            nailsDAO.addService(nails);
+            nailsDAO.addService(date, time, id_client);
         } else if (service.equals("Brows") || service.equals("brows") || service.equals("hair") || service.equals("Hair")) {
-            Brows brows = new Brows();
-            brows.setDate(date);
-            brows.setTime(time);
-            brows.setId_client(id_client);
-            browsDAO.addService(brows);
+            browsDAO.addService(date, time, id_client);
         } else {
-            MakeUp makeUp = new MakeUp();
-            makeUp.setDate(date);
-            makeUp.setTime(time);
-            makeUp.setId_client(id_client);
-            makeUpDAO.addService(makeUp);
+            makeUpDAO.addService(date, time, id_client);
         }
     }
 
@@ -58,15 +46,32 @@ public class BlinkService implements BlinkServiceInterface {
 
     @Override
     public List<Time> getBusyTimesforService(String service, Date date) {
-        if(service == null || service.equals("") || date == null)
+        if (service == null || service.equals("") || date == null)
             return null;
 
+        List<Time> list;
         if (service.equals("Nails") || service.equals("nails")) {
-            return nailsDAO.getBusyTimesforService(date);
+            list = nailsDAO.getBusyTimesforService(date);
         } else if (service.equals("Brows") || service.equals("brows") || service.equals("hair") || service.equals("Hair")) {
-            return browsDAO.getBusyTimesforService(date);
+            list = browsDAO.getBusyTimesforService(date);
         } else {
-            return makeUpDAO.getBusyTimesforService(date);
+            list = makeUpDAO.getBusyTimesforService(date);
+        }
+
+        return list;
+    }
+
+    @Override
+    public void removeReservation(String service, Date date, Time time, long id_client) {
+        if (service != null && !service.equals("") && date != null && time != null) {
+            if (service.equals("Nails") || service.equals("nails")) {
+                System.out.println("Нормуль");
+                nailsDAO.removeReservation(date, time, id_client);
+            } else if (service.equals("Brows") || service.equals("brows") || service.equals("hair") || service.equals("Hair")) {
+                browsDAO.removeReservation(date, time, id_client);
+            } else {
+                makeUpDAO.removeReservation(date, time, id_client);
+            }
         }
     }
 }

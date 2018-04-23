@@ -36,6 +36,7 @@ public class EditController {
 
     @RequestMapping(value = "/edit/updateClientReservation", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody void updateClientReservation(@RequestBody String json) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
 
     }
 

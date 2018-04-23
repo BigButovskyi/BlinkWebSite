@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.HashMap;
@@ -15,16 +16,22 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class BrowsDAO implements BrowsDAOInterface{
+public class BrowsDAO implements BrowsDAOInterface {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     //Adding new nails service
-    public void addService(Brows brows) {
+    @Override
+    public void addService(Date date, Time time, long id_client){
+        Brows brows = new Brows();
+        brows.setDate(date);
+        brows.setTime(time);
+        brows.setId_client(id_client);
         entityManager.persist(brows);
     }
 
+    @Override
     public Object[] getNailsReservationsByClientId(long id_client) {
         Query query = entityManager.createNativeQuery("select * from Brows where id_client = " + id_client + "", Brows.class);
         List<Brows> list = query.getResultList();
@@ -49,5 +56,21 @@ public class BrowsDAO implements BrowsDAOInterface{
         Query query = entityManager.createNativeQuery(sql);
         List<Time> list = query.getResultList();
         return list;
+    }
+
+    @Override
+    public void removeReservation(Date date, Time time, long id_client) {
+        String sql = "delete from Brows where date = '" + date +
+                "' AND time = '" + time + "' AND id_client = " + id_client;
+        Query query = entityManager.createNativeQuery(sql);
+        query.executeUpdate();
+    }
+
+    private int browsIsInBase(Date date, Time time, long id_client) {
+        String query = "SELECT count(*)from Brows where date = '" + date +
+                "' AND time = '" + time + "' AND id_client = " + id_client;
+        int number = ((BigInteger) entityManager.createNativeQuery(query).getSingleResult()).intValue();
+        System.out.println(number);
+        return number;
     }
 }

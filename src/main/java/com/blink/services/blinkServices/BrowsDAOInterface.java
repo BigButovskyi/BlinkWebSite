@@ -7,8 +7,8 @@ import java.sql.Time;
 import java.util.List;
 
 public interface BrowsDAOInterface {
-
-    void addService(Brows brows);
+    void addService(Date date, Time time, long id_client);
     Object[] getNailsReservationsByClientId(long id_client);
     List<Time> getBusyTimesforService(Date date);
+    void removeReservation(Date date, Time time, long id_client);
 }

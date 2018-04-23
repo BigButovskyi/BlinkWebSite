@@ -9,4 +9,6 @@ public interface BlinkServiceInterface {
     void addService(String service, Date date, Time time, long id_client);
     List<Time> getBusyTimesforService(String service, Date date);
     Map<String, Object[]> getClientReservations(long id_client);
+    void removeReservation(String service, Date date, Time time, long id_client);
+
 }

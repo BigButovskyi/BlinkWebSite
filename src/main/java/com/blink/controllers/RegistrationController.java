@@ -47,7 +47,7 @@ public class RegistrationController {
         //Parsing Date
         Date date = formatDate(jsonMapper.getDate(), "yyyy-MM-dd");//format could be yyyy/MM/dd
         //Parsing Time
-        Time time = formatTime(jsonMapper.getTime(), "hh:mm");
+        Time time = formatTime(jsonMapper.getTime(), "HH:mm");
         //!!!!Registration
         //Adding client to DB
         Client client = jsonMapper.getClient();

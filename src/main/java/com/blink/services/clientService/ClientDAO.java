@@ -8,8 +8,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigInteger;
 import java.sql.Date;
-import java.sql.Time;
-import java.util.List;
 
 @Repository
 public class ClientDAO implements ClientDAOInterface {
@@ -46,6 +44,51 @@ public class ClientDAO implements ClientDAOInterface {
         return 0;
     }
 
+    public void addEmailAndCode(String email, int code){
+        java.util.Date utilDate = new java.util.Date();
+        Date date = new java.sql.Date(utilDate.getTime());
+        if(emailIsExist(email) == 0){
+            String sql = "insert into Validation(email, code, date) VALUES " +
+                    "('" + email + "', " + code + ", '"+ date + "')";
+            Query query = entityManager.createNativeQuery(sql);
+            query.executeUpdate();
+        }else{
+            String sql = "update Validation " +
+                    "set code = " + code +" " +
+                    "where email = '" + email + "'";
+            Query query = entityManager.createNativeQuery(sql);
+            query.executeUpdate();
+        }
+    }
+
+    @Override
+    public boolean checkCode(String email, int code){
+        String sql = "SELECT count(*)from Validation where email = '" + email + "' AND code = " + code;
+        int number = ((BigInteger) entityManager.createNativeQuery(sql).getSingleResult()).intValue();
+        if(number == 0)
+            return false;
+        sql = "delete from Validation where email = '" + email + "'";
+        Query query = entityManager.createNativeQuery(sql);
+        query.executeUpdate();
+
+        cleanValidationTable();
+        return true;
+    }
+
+    private void cleanValidationTable(){
+        java.util.Date utilDate = new java.util.Date();
+        Date date = new java.sql.Date(utilDate.getTime());
+        String sql = "delete from Validation where date < '" + date + "'";
+        Query query = entityManager.createNativeQuery(sql);
+        query.executeUpdate();
+    }
+
+    private int emailIsExist(String email) {
+        String query = "SELECT count(*)from Validation where email = '" + email + "'";
+        int number = ((BigInteger) entityManager.createNativeQuery(query).getSingleResult()).intValue();
+        return number;
+    }
+
     //check by email if client is in base
     private int clientIsInBaseByEmail(String email) {
         String query = "SELECT count(*)from Clients where email = '" + email + "'";
@@ -60,4 +103,5 @@ public class ClientDAO implements ClientDAOInterface {
         int number = ((BigInteger) entityManager.createNativeQuery(query).getSingleResult()).intValue();
         return number;
     }
+
 }

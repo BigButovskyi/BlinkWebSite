@@ -10,4 +10,6 @@ public interface ClientDAOInterface {
     void addClient(Client client);
     long getIdClientByEmail(String email);
     long getIdClientByPhone(String phone);
+    void addEmailAndCode(String email, int code);
+    boolean checkCode(String email, int code);
 }

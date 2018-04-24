@@ -23,12 +23,26 @@ public class ClientService implements ClientServiceInterface{
         clientDAO.addClient(client);
     }
 
+    @Override
     public long getIdClientByEmail(String email){
         return clientDAO.getIdClientByEmail(email);
     }
 
+    @Override
     public long getIdClientByPhone(String phone){
         return clientDAO.getIdClientByPhone(phone);
+    }
+
+    @Override
+    public void addEmailAndCode(String email, int code){
+            clientDAO.addEmailAndCode(email, code);
+    }
+
+    @Override
+    public boolean checkCode(String email, int code){
+        if (code < 1000 || code > 9999)
+            return false;
+        return clientDAO.checkCode(email,code);
     }
 
 }

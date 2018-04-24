@@ -65,12 +65,25 @@ public class BlinkService implements BlinkServiceInterface {
     public void removeReservation(String service, Date date, Time time, long id_client) {
         if (service != null && !service.equals("") && date != null && time != null) {
             if (service.equals("Nails") || service.equals("nails")) {
-                System.out.println("Нормуль");
                 nailsDAO.removeReservation(date, time, id_client);
             } else if (service.equals("Brows") || service.equals("brows") || service.equals("hair") || service.equals("Hair")) {
                 browsDAO.removeReservation(date, time, id_client);
             } else {
                 makeUpDAO.removeReservation(date, time, id_client);
+            }
+        }
+    }
+
+    @Override
+    public void updateService(long id_client, String service, Date old_date, Time old_time, Date new_date, Time new_time){
+        if (service != null && !service.equals("") && old_date != null && old_time != null &&
+                new_date != null && new_time != null) {
+            if (service.equals("Nails") || service.equals("nails")) {
+                nailsDAO.updateService(id_client, old_date, old_time, new_date, new_time);
+            } else if (service.equals("Brows") || service.equals("brows") || service.equals("hair") || service.equals("Hair")) {
+                browsDAO.updateService(id_client, old_date, old_time, new_date, new_time);
+            } else {
+                makeUpDAO.updateService(id_client, old_date, old_time, new_date, new_time);
             }
         }
     }

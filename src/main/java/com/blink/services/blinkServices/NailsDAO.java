@@ -47,6 +47,14 @@ public class NailsDAO implements NailsDAOInterface{
     }
 
     @Override
+    public List<Time> getClientTimeForDayByID(long id_client, Date date){
+        String sql = "select time from Nails where id_client = " + id_client +" AND date = '" + date + "'";
+        Query query = entityManager.createNativeQuery(sql);
+        List<Time> list = query.getResultList();
+        return list;
+    }
+
+    @Override
     public List<Time> getBusyTimesforService(Date date) {
         String sql = "select a.time from Masters, " +
                 "(select count(*) as counter, time from Nails where date = '" + date + "' group by time) a " +

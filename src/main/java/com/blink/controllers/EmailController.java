@@ -30,13 +30,13 @@ public class EmailController {
 
     // This Method Is Used To Prepare The Email Message And Send It To The Client
     @RequestMapping(value = "/emailVerification", method = RequestMethod.POST)
-    public ResponseEntity sendEmailToClient(@RequestBody String json) throws IOException {
+    public boolean sendEmailToClient(@RequestBody String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JSONEmailMapper jsonEmailMapper = objectMapper.readValue(json, JSONEmailMapper.class);
         String email = jsonEmailMapper.getEmail();
         //Check if user email is valid
         if (!isValidEmailAddress(email)) {
-            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+            return false;
         }
 
         //Creating verification code
@@ -63,7 +63,7 @@ public class EmailController {
         });
 
         clientService.addEmailAndCode(email, code);
-        return new ResponseEntity(HttpStatus.OK);
+        return true;
     }
 
     @RequestMapping(value = "/finalVerification", method = RequestMethod.POST)

@@ -15,6 +15,8 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 @RestController
@@ -27,7 +29,7 @@ public class RegistrationController {
     private BlinkServiceInterface blinkService;
 
     @RequestMapping(value = "/registration/getBusyTimesForService", method = RequestMethod.POST, produces = "application/json")
-    public @ResponseBody List<Time> getBusyTimesForService(@RequestBody String json) throws IOException, ParseException {
+    public @ResponseBody TreeSet<Time> getBusyTimesForService(@RequestBody String json) throws IOException, ParseException {
         ObjectMapper objectMapper = new ObjectMapper();
         JSONServiceDateMapper jsonServiceDateMapper = objectMapper.readValue(json, JSONServiceDateMapper.class);
         //Get Service from json
@@ -35,7 +37,9 @@ public class RegistrationController {
         //Get date from json
         Date date = formatDate(jsonServiceDateMapper.getDate(), "yyyy-MM-dd");//format could be yyyy/MM/dd
 
-        return blinkService.getBusyTimesforService(service, date);
+        long id_client = clientService.getIdClientByEmail(jsonServiceDateMapper.getEmail());
+
+        return blinkService.getBusyTimesforService(id_client,service, date);
     }
 
     //Adding client and reservation

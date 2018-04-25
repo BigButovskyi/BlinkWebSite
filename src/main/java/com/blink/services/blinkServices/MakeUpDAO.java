@@ -29,7 +29,7 @@ public class MakeUpDAO implements MakeUpDAOInterface {
     }
 
     @Override
-    public Object[] getNailsReservationsByClientId(long id_client) {
+    public Object[] getMakeUpReservationsByClientId(long id_client) {
         Query query = entityManager.createNativeQuery("select * from MakeUp where id_client = " + id_client + "", MakeUp.class);
         List<MakeUp> list = query.getResultList();
         Object[] array = new Object[list.size()];
@@ -50,6 +50,14 @@ public class MakeUpDAO implements MakeUpDAOInterface {
         String sql = "select a.time from Masters, " +
                 "(select count(*) as counter, time from MakeUp where date = '" + date + "' group by time) a " +
                 "where (Masters.service='MakeUp') and (a.counter=Masters.max)";
+        Query query = entityManager.createNativeQuery(sql);
+        List<Time> list = query.getResultList();
+        return list;
+    }
+
+    @Override
+    public List<Time> getClientTimeForDayByID(long id_client, Date date){
+        String sql = "select time from MakeUp where id_client = " + id_client +" AND date = '" + date + "'";
         Query query = entityManager.createNativeQuery(sql);
         List<Time> list = query.getResultList();
         return list;

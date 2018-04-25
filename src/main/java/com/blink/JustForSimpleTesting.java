@@ -1,12 +1,20 @@
 package com.blink;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
 
 public class JustForSimpleTesting {
     public static void main(String[] args) {
-        java.util.Date utilDate = new java.util.Date();
-        Date sqlDate = new java.sql.Date(utilDate.getTime());
-        System.out.println(sqlDate);
+        List<Integer> treeSet = new ArrayList<>();
+        treeSet.add(3);
+        treeSet.add(1);
+        treeSet.add(2);
+        treeSet.add(3);
+
+        TreeSet<Integer> a = new TreeSet<>(treeSet);
+        for (int i : a) {
+            System.out.println(i);
+        }
     }
 }

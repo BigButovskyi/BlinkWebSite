@@ -1,8 +1,17 @@
 package com.blink.controllers.jsonMappers;
 
 public class JSONServiceDateMapper {
+    private String email;
     private String service;
     private String date;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getService() {
         return service;

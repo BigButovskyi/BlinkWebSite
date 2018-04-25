@@ -1,8 +1,6 @@
 package com.blink.services.blinkServices;
 
 import com.blink.Entities.Brows;
-import com.blink.Entities.MakeUp;
-import com.blink.Entities.Nails;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,7 +19,7 @@ public class BrowsDAO implements BrowsDAOInterface {
     @PersistenceContext
     private EntityManager entityManager;
 
-    //Adding new nails service
+    //Adding new brows service
     @Override
     public void addService(Date date, Time time, long id_client){
         Brows brows = new Brows();
@@ -32,7 +30,7 @@ public class BrowsDAO implements BrowsDAOInterface {
     }
 
     @Override
-    public Object[] getNailsReservationsByClientId(long id_client) {
+    public Object[] getBrowsReservationsByClientId(long id_client) {
         Query query = entityManager.createNativeQuery("select * from Brows where id_client = " + id_client + "", Brows.class);
         List<Brows> list = query.getResultList();
         Object[] array = new Object[list.size()];
@@ -53,6 +51,14 @@ public class BrowsDAO implements BrowsDAOInterface {
         String sql = "select a.time from Masters, " +
                 "(select count(*) as counter, time from Brows where date = '" + date + "' group by time) a " +
                 "where (Masters.service='Brows') and (a.counter=Masters.max)";
+        Query query = entityManager.createNativeQuery(sql);
+        List<Time> list = query.getResultList();
+        return list;
+    }
+
+    @Override
+    public List<Time> getClientTimeForDayByID(long id_client, Date date){
+        String sql = "select time from Brows where id_client = " + id_client +" AND date = '" + date + "'";
         Query query = entityManager.createNativeQuery(sql);
         List<Time> list = query.getResultList();
         return list;

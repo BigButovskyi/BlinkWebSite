@@ -12,6 +12,7 @@ import java.sql.Time;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 @Component
 @Transactional
@@ -38,14 +39,14 @@ public class BlinkService implements BlinkServiceInterface {
     @Override
     public Map<String, Object[]> getClientReservations(long id_client) {
         Map<String, Object[]> map = new HashMap<>();
-        map.put("makeUp", makeUpDAO.getNailsReservationsByClientId(id_client));
-        map.put("brows", browsDAO.getNailsReservationsByClientId(id_client));
+        map.put("makeUp", makeUpDAO.getMakeUpReservationsByClientId(id_client));
+        map.put("brows", browsDAO.getBrowsReservationsByClientId(id_client));
         map.put("nails", nailsDAO.getNailsReservationsByClientId(id_client));
         return map;
     }
 
     @Override
-    public List<Time> getBusyTimesforService(String service, Date date) {
+    public TreeSet<Time> getBusyTimesforService(long id_client, String service, Date date) {
         if (service == null || service.equals("") || date == null)
             return null;
 
@@ -58,7 +59,13 @@ public class BlinkService implements BlinkServiceInterface {
             list = makeUpDAO.getBusyTimesforService(date);
         }
 
-        return list;
+        if (id_client != 0) {
+            list.addAll(nailsDAO.getClientTimeForDayByID(id_client, date));
+            list.addAll(browsDAO.getClientTimeForDayByID(id_client, date));
+            list.addAll(makeUpDAO.getClientTimeForDayByID(id_client, date));
+        }
+        TreeSet<Time> timeTreeSet = new TreeSet<>(list);
+        return timeTreeSet;
     }
 
     @Override
@@ -75,7 +82,7 @@ public class BlinkService implements BlinkServiceInterface {
     }
 
     @Override
-    public void updateService(long id_client, String service, Date old_date, Time old_time, Date new_date, Time new_time){
+    public void updateService(long id_client, String service, Date old_date, Time old_time, Date new_date, Time new_time) {
         if (service != null && !service.equals("") && old_date != null && old_time != null &&
                 new_date != null && new_time != null) {
             if (service.equals("Nails") || service.equals("nails")) {

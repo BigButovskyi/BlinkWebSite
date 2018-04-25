@@ -39,7 +39,7 @@ public class EditController {
                 :null;
     }
 
-    @RequestMapping(value = "/edit/updateClientReservation", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/edit/updateClientReservation", method = RequestMethod.PUT, produces = "application/json")
     public void updateClientReservation(@RequestBody String json) throws IOException, ParseException {
         ObjectMapper objectMapper = new ObjectMapper();
         JSONUpdateMapper jsonUpdateMapper = objectMapper.readValue(json, JSONUpdateMapper.class);

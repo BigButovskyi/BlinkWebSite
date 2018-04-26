@@ -22,11 +22,8 @@ public class EmailController {
     @Autowired
     private ClientServiceInterface clientService;
 
-    static String emailToRecipient, emailSubject, emailMessage;
-    static final String emailFromRecipient = "blinkbeautyspace@gmail.com";
-
     @Autowired
-    private JavaMailSender mailSenderObj;
+    private EmailSender emailSender;
 
     // This Method Is Used To Prepare The Email Message And Send It To The Client
     @RequestMapping(value = "/emailVerification", method = RequestMethod.POST)
@@ -38,36 +35,18 @@ public class EmailController {
         if (!isValidEmailAddress(email)) {
             return false;
         }
-
         //Creating verification code
         int code = codeGenerator();
-        // Reading Email Form Input Parameters
-        emailSubject = "Email Verification";
-        emailMessage = "<html> <body><div style=\"font-family: 'Georgia;'\"><h2>Blink Beauty message</h2>" +
-                "<span style=\"font-size: 18px;\">Good day!<br>" +
-                "Here is the Blink Beauty Guard code you need to put into verification field:</span><br>" +
-                "<span><h2>" + code + "</h2></span>" +
-                "<span style=\"color:gray\">If it wasn't you, please, ignore this message</span></body></html>";
-        emailToRecipient = email;
-
-        mailSenderObj.send(new MimeMessagePreparator() {
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-
-                MimeMessageHelper mimeMsgHelperObj = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-                mimeMsgHelperObj.setTo(emailToRecipient);
-                mimeMsgHelperObj.setFrom(emailFromRecipient);
-                mimeMsgHelperObj.setText(emailMessage, true);
-                mimeMsgHelperObj.setSubject(emailSubject);
-
-            }
-        });
-
+        //Sending letter with code to email
+        emailSender.sendVerificationCode(email, code);
+        //adding code with email to database
         clientService.addEmailAndCode(email, code);
         return true;
     }
 
     @RequestMapping(value = "/finalVerification", method = RequestMethod.POST)
-    public @ResponseBody boolean finalVerification(@RequestBody String json) throws IOException {
+    public @ResponseBody
+    boolean finalVerification(@RequestBody String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JSONEmailCodeMapper jsonEmailCodeMapper = objectMapper.readValue(json, JSONEmailCodeMapper.class);
         String email = jsonEmailCodeMapper.getEmail();
@@ -77,7 +56,7 @@ public class EmailController {
         }
         boolean codeIsValid = clientService.checkCode(email, code);
 
-        return codeIsValid?true:false;
+        return codeIsValid ? true : false;
     }
 
     private boolean isValidEmailAddress(String email) {
@@ -91,9 +70,9 @@ public class EmailController {
         return result;
     }
 
-    private int codeGenerator(){
+    private int codeGenerator() {
         int Min = 1000;
         int Max = 9999;
-        return Min + (int)(Math.random() * ((Max - Min) + 1));
+        return Min + (int) (Math.random() * ((Max - Min) + 1));
     }
 }

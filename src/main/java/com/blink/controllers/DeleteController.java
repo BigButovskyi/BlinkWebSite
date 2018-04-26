@@ -24,6 +24,8 @@ public class DeleteController {
     private ClientServiceInterface clientService;
     @Autowired
     private BlinkServiceInterface blinkService;
+    @Autowired
+    private EmailSender emailSender;
 
     @RequestMapping(value = "/delete/getClientReservations", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody Map<String, Object[]> getClientServices(@RequestBody String json) throws IOException {
@@ -52,6 +54,9 @@ public class DeleteController {
 
         //get client id
         long id_client = clientService.getIdClientByEmail(email);
+
+        //sending email
+        emailSender.sendEmailAboutDeleteReservation(email, service, date, time);
         //remove service by client id and by service, date, time
         blinkService.removeReservation(service, date, time, id_client);
 

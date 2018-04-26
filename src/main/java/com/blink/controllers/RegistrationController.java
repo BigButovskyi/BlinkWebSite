@@ -27,6 +27,8 @@ public class RegistrationController {
     private ClientServiceInterface clientService;
     @Autowired
     private BlinkServiceInterface blinkService;
+    @Autowired
+    private EmailSender emailSender;
 
     @RequestMapping(value = "/registration/getBusyTimesForService", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody TreeSet<Time> getBusyTimesForService(@RequestBody String json) throws IOException, ParseException {
@@ -48,6 +50,8 @@ public class RegistrationController {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JSONMapper jsonMapper = objectMapper.readValue(string, JSONMapper.class);
+        // Getting service
+        String service = jsonMapper.getService();
         //Parsing Date
         Date date = formatDate(jsonMapper.getDate(), "yyyy-MM-dd");//format could be yyyy/MM/dd
         //Parsing Time
@@ -56,9 +60,11 @@ public class RegistrationController {
         //Adding client to DB
         Client client = jsonMapper.getClient();
         clientService.addClient(client);
+        // Sending letter about Client reservation
+        emailSender.sendEmailClientReservation(client.getEmail(), service, date, time);
         //Adding particular service
         long id_client = clientService.getIdClientByEmail(client.getEmail());
-        blinkService.addService(jsonMapper.getService(), date, time, id_client);
+        blinkService.addService(service, date, time, id_client);
 
         //        return clientService.getBusyTimesforService(service, date);
     }

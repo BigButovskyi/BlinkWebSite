@@ -23,6 +23,8 @@ public class EditController {
     private ClientServiceInterface clientService;
     @Autowired
     private BlinkServiceInterface blinkService;
+    @Autowired
+    private EmailSender emailSender;
 
     @RequestMapping(value = "/edit/getClientReservations", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody Map<String, Object[]> getClientServices(@RequestBody String json) throws IOException {
@@ -53,8 +55,11 @@ public class EditController {
         Time new_time = formatTime(jsonUpdateMapper.getNew_time(), "HH:mm");
 
         long id_client = clientService.getIdClientByEmail(email);
+        //Sending letter to client email
+        emailSender.sendEmailWithChangeParameters(email, service, old_date, old_time, new_date, new_time);
+        // Update clients reservation
+        blinkService.updateService(id_client, service, old_date, old_time, new_date, new_time);
 
-        blinkService.updateService(id_client, service,old_date,old_time,new_date,new_time);
     }
 
     private Date formatDate(String dateString, String format) throws ParseException {

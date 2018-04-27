@@ -65,6 +65,15 @@ public class BrowsDAO implements BrowsDAOInterface {
     }
 
     @Override
+    public void cleanBrowsTable() {
+        java.util.Date utilDate = new java.util.Date();
+        Date date = new java.sql.Date(utilDate.getTime());
+        String sql = "delete from Brows where date < '" + date + "'";
+        Query query = entityManager.createNativeQuery(sql);
+        query.executeUpdate();
+    }
+
+    @Override
     public void removeReservation(Date date, Time time, long id_client) {
         String sql = "delete from Brows where date = '" + date +
                 "' AND time = '" + time + "' AND id_client = " + id_client;

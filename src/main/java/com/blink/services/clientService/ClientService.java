@@ -50,4 +50,6 @@ public class ClientService implements ClientServiceInterface{
         return clientDAO.getClient(id_client);
     }
 
+
+
 }

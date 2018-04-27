@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class NailsDAO implements NailsDAOInterface{
+public class NailsDAO implements NailsDAOInterface {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -47,11 +47,20 @@ public class NailsDAO implements NailsDAOInterface{
     }
 
     @Override
-    public List<Time> getClientTimeForDayByID(long id_client, Date date){
-        String sql = "select time from Nails where id_client = " + id_client +" AND date = '" + date + "'";
+    public List<Time> getClientTimeForDayByID(long id_client, Date date) {
+        String sql = "select time from Nails where id_client = " + id_client + " AND date = '" + date + "'";
         Query query = entityManager.createNativeQuery(sql);
         List<Time> list = query.getResultList();
         return list;
+    }
+
+    @Override
+    public void cleanNailsTable() {
+        java.util.Date utilDate = new java.util.Date();
+        Date date = new java.sql.Date(utilDate.getTime());
+        String sql = "delete from Nails where date < '" + date + "'";
+        Query query = entityManager.createNativeQuery(sql);
+        query.executeUpdate();
     }
 
     @Override
@@ -73,10 +82,10 @@ public class NailsDAO implements NailsDAOInterface{
     }
 
     @Override
-    public void updateService(long id_client, Date old_date, Time old_time, Date new_date, Time new_time){
+    public void updateService(long id_client, Date old_date, Time old_time, Date new_date, Time new_time) {
         String sql = "update Nails " +
-                "set date = '" + new_date + "', time = '" + new_time + "' "+
-                "where date = '" + old_date + "' AND time = '" + old_time + "' AND id_client = "+ id_client;
+                "set date = '" + new_date + "', time = '" + new_time + "' " +
+                "where date = '" + old_date + "' AND time = '" + old_time + "' AND id_client = " + id_client;
         Query query = entityManager.createNativeQuery(sql);
         query.executeUpdate();
     }

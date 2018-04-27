@@ -94,4 +94,11 @@ public class BlinkService implements BlinkServiceInterface {
             }
         }
     }
+
+    @Override
+    public void cleanDataBase() {
+        nailsDAO.cleanNailsTable();
+        browsDAO.cleanBrowsTable();
+        makeUpDAO.cleanMakeUpTable();
+    }
 }

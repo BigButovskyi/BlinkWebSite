@@ -66,6 +66,7 @@ public class EditController {
 
         // Update clients reservation
         blinkService.updateService(id_client, service, old_date, old_time, new_date, new_time);
+        blinkService.cleanDataBase();
 
     }
 

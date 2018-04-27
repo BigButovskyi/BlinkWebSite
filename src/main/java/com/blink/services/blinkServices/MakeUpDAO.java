@@ -64,6 +64,15 @@ public class MakeUpDAO implements MakeUpDAOInterface {
     }
 
     @Override
+    public void cleanMakeUpTable() {
+        java.util.Date utilDate = new java.util.Date();
+        Date date = new java.sql.Date(utilDate.getTime());
+        String sql = "delete from MakeUp where date < '" + date + "'";
+        Query query = entityManager.createNativeQuery(sql);
+        query.executeUpdate();
+    }
+
+    @Override
     public void removeReservation(Date date, Time time, long id_client) {
             String sql = "delete from MakeUp where date = '" + date +
                     "' AND time = '" + time + "' AND id_client = " + id_client;

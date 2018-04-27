@@ -96,8 +96,7 @@
                         <img class="orbit-image" src="../../resources/css/image/man.jpg" alt="image alt text">
                         <figcaption class="orbit-caption">
                             <h3>Manicure</h3>
-                            <p>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
-                                bla</p>
+                            <p>Manicure, designs - what else can girl wish?</p>
                             <a class="button book-click" data-open="mobile-ios-modal-1">Book now</a>
                         </figcaption>
                     </figure>
@@ -107,8 +106,7 @@
                         <img class="orbit-image" src="../../resources/css/image/make.jpg" alt="image alt text">
                         <figcaption class="orbit-caption">
                             <h3>Make-up</h3>
-                            <p>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
-                                bla</p>
+                            <p>Express make up, cocktail, evening or artistic - you wish - we do</p>
                             <a class="button book-click" data-open="mobile-ios-modal-1">Book now</a>
                         </figcaption>
                     </figure>
@@ -118,8 +116,7 @@
                         <img class="orbit-image" src="../../resources/css/image/brow.jpg" alt="image alt text">
                         <figcaption class="orbit-caption">
                             <h3>Brows</h3>
-                            <p>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
-                                bla</p>
+                            <p>Perfect correction and dyeing for your brows</p>
                             <a class="button book-click" data-open="mobile-ios-modal-1">Book now</a>
                         </figcaption>
                     </figure>

@@ -74,7 +74,7 @@ public class MakeUpDAO implements MakeUpDAOInterface {
     @Override
     public void updateService(long id_client, Date old_date, Time old_time, Date new_date, Time new_time){
         String sql = "update MakeUp " +
-                "set date = '" + new_date + "', time = '" + new_time + "'"+
+                "set date = '" + new_date + "', time = '" + new_time + "' "+
                 "where date = '" + old_date + "' AND time = '" + old_time + "' AND id_client = "+ id_client;
         Query query = entityManager.createNativeQuery(sql);
         query.executeUpdate();

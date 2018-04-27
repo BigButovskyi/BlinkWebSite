@@ -1,0 +1,55 @@
+.contacts {
+    background: #48274f;
+    box-sizing: content-box;
+    display: flex;
+    margin-top: 50px;
+}
+
+.contacts .google-maps {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    width: 50%;
+    display: inline-block;
+    float: left;
+}
+
+.contacts .contact-info {
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+    padding-left: 10px;
+    margin-top: 15px;
+}
+
+.contacts .contact-info h3 {
+    margin-top: 20px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 200;
+}
+
+.contacts .contact-info .contacts-text {
+    color: #ccc;
+    font-size: 14px;
+    padding: 0 15%;
+    text-align: left;
+    margin-top: 15px;
+}
+
+.contacts .google-maps{
+    padding-left: 5px;
+    height: 350px;
+}
+
+.contact-inside{
+    text-align: center;
+    border-bottom: 1px solid #9f9f9f;
+    margin-bottom: 10px;
+}
+
+.contact-inside .contact-text-big, .contact-inside .contact-text-small{
+    padding-right: 15%;
+    padding-left: 2%;
+    font-weight: 700;
+}

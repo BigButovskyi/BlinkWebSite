@@ -1,5 +1,6 @@
 package com.blink.controllers;
 
+import com.blink.Entities.Client;
 import com.blink.controllers.jsonMappers.JSONEmailMapper;
 import com.blink.controllers.jsonMappers.JSONUpdateMapper;
 import com.blink.services.blinkServices.BlinkServiceInterface;
@@ -32,10 +33,12 @@ public class EditController {
         objectMapper = new ObjectMapper();
         JSONEmailMapper jsonEmailMapper = objectMapper.readValue(json, JSONEmailMapper.class);
         String email = jsonEmailMapper.getEmail();
+        System.out.println(email);
         //get client id
 //        long id_client = clientService.getIdClientByPhone(phone);
         long id_client = clientService.getIdClientByEmail(email);
         // Sending client's id
+        System.out.println(id_client);
         return (id_client != 0)?
                 blinkService.getClientReservations(id_client)
                 :null;
@@ -51,12 +54,16 @@ public class EditController {
         Date old_date = formatDate(jsonUpdateMapper.getOld_date(), "yyyy-MM-dd");
         Time old_time = formatTime(jsonUpdateMapper.getOld_time(),"HH:mm");
 
-        Date new_date = formatDate(jsonUpdateMapper.getNew_date(), "yyyy-MM-dd");
+        Date new_date = formatDate(jsonUpdateMapper.getNew_date(), "yyyy/MM/dd");
         Time new_time = formatTime(jsonUpdateMapper.getNew_time(), "HH:mm");
 
         long id_client = clientService.getIdClientByEmail(email);
+        Client client = clientService.getClient(id_client);
         //Sending letter to client email
         emailSender.sendEmailWithChangeParameters(email, service, old_date, old_time, new_date, new_time);
+        emailSender.sendAdminAboutChanges(client.getEmail(), client.getName(), client.getPhone(),
+                service, old_date, old_time, new_date, new_time);
+
         // Update clients reservation
         blinkService.updateService(id_client, service, old_date, old_time, new_date, new_time);
 

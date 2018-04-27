@@ -62,11 +62,11 @@ public class RegistrationController {
         clientService.addClient(client);
         // Sending letter about Client reservation
         emailSender.sendEmailClientReservation(client.getEmail(), service, date, time);
+        emailSender.sendAdminAddReservation(client.getEmail(), client.getName(), client.getPhone(), service, date, time);
         //Adding particular service
         long id_client = clientService.getIdClientByEmail(client.getEmail());
         blinkService.addService(service, date, time, id_client);
 
-        //        return clientService.getBusyTimesforService(service, date);
     }
 
     private Date formatDate(String dateString, String format) throws ParseException {

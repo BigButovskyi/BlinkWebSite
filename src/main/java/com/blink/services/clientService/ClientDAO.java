@@ -75,6 +75,11 @@ public class ClientDAO implements ClientDAOInterface {
         return true;
     }
 
+    @Override
+    public Client getClient(long id_client) {
+        return entityManager.find(Client.class, id_client);
+    }
+
     private void cleanValidationTable(){
         java.util.Date utilDate = new java.util.Date();
         Date date = new java.sql.Date(utilDate.getTime());

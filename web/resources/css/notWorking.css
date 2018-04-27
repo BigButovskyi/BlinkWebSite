@@ -1,0 +1,19 @@
+body {
+    background: url(image/background.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin: 0!important;
+}
+
+.message {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+    color: white;
+    position: absolute;
+    top: 50%;
+}

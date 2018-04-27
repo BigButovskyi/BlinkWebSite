@@ -45,4 +45,9 @@ public class ClientService implements ClientServiceInterface{
         return clientDAO.checkCode(email,code);
     }
 
+    @Override
+    public Client getClient(long id_client) {
+        return clientDAO.getClient(id_client);
+    }
+
 }

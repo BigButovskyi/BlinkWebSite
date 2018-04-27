@@ -1,0 +1,211 @@
+.login-box {
+    margin-left: 10%;
+    width: 75%;
+    height: auto;
+}
+
+.menu {
+    display: flex;
+}
+
+.login-box-input {
+    border-radius: 5000px;
+    width: 288px;
+    display: inline-block;
+}
+
+.login-box-input :disabled {
+
+}
+
+.login-box-title {
+    font-weight: 200;
+    font-size: x-large;
+    color: #09aff6;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.login-box-submit-button {
+    width: 100px;
+    background-color: #099ddd;
+    color: white;
+    border-radius: 5000px;
+    margin-left: 1%;
+    float: left;
+}
+
+.login-box-submit-button-edit {
+    width: 110px;
+    background-color: #099ddd;
+    color: white;
+    border-radius: 5000px;
+    margin-left: 1%;
+    float: left;
+}
+
+.login-box-submit-button-edit:hover:enabled {
+    background-color: #0985c1;
+}
+
+.login-box-submit-button :disabled {
+
+}
+
+.login-box-submit-button:hover:enabled {
+    background-color: #0985c1;
+}
+
+.menu-email-check, .menu-code-check, .menu-date-check, .menu-data-check {
+    padding: 0.5rem 1rem 1rem 1rem;
+}
+
+.services-menu {
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center
+}
+
+.services-menu .services-menu-inside {
+    width: 100%;
+    margin: auto;
+}
+
+.services-menu .services-menu-inside .button {
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-bottom: 5px !important;
+}
+
+.button-rounded-hover {
+    border-radius: 5000px;
+    background-color: #09aff6;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: all 0.35s ease;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.button-rounded-hover:enabled {
+    background-color: #d596db;
+}
+
+.button-rounded-hover:hover {
+    background-color: #b285c5;
+}
+
+.edit-question {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.edit-question a {
+    border-bottom: 0.7px solid rgba(9, 175, 246, 0.24);
+    padding-bottom: 2px;
+}
+
+.booking-list {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.booking-list .one-reservation {
+    padding-top: 7px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(9, 175, 246, 0.24);
+}
+
+.service-ed {
+    display: inline-block;
+    width: 30%;
+    padding-left: 10px;
+    /* padding-right: 55px;*/
+}
+
+.data-edit {
+    display: inline-block;
+    width: 50%;
+    padding-right: 85px;
+}
+
+.edit-icons button {
+    margin-right: 10px;
+}
+
+.one-reservation button:hover {
+    cursor: pointer;
+}
+
+.edit-icons {
+    display: inline-block;
+    text-align: right;
+    padding-left: 5%;
+}
+
+.services-menu-inside .isChosen {
+    background-color: #9487eb;
+}
+
+.date-input-box {
+    display: inline-block !important;
+}
+
+.date-input-box .date-input {
+    width: 194px !important;
+}
+
+.noButton {
+    width: 400px !important;
+}
+
+#client-email-edit {
+    width: 278px;
+}
+
+.date-input-edit {
+    height: 30px;
+}
+
+.new-edit .menu-date-check {
+    padding-bottom: 5px;
+}
+
+@media screen and (max-width: 640px) {
+    #mobile-ios-modal-1 {
+        display: contents;
+    }
+}
+
+.input-with-but button {
+    position: absolute;
+    right: 12px;
+    top: 2px;
+    border: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    outline: none;
+    text-align: center;
+    font-weight: bold;
+    padding: 2px;
+}
+
+.input-with-but button:hover:enabled {
+    cursor: pointer;
+}
+
+.input-with-but button:hover:disabled {
+    cursor: not-allowed;
+}
+
+.input-with-but {
+    position: relative;
+    margin-bottom: 10px;
+}

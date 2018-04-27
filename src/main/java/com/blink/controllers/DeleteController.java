@@ -1,5 +1,6 @@
 package com.blink.controllers;
 
+import com.blink.Entities.Client;
 import com.blink.controllers.jsonMappers.JSONEmailMapper;
 import com.blink.controllers.jsonMappers.RemoveMapper;
 import com.blink.services.blinkServices.BlinkServiceInterface;
@@ -33,7 +34,6 @@ public class DeleteController {
         JSONEmailMapper jsonEmailMapper = objectMapper.readValue(json, JSONEmailMapper.class);
         String email = jsonEmailMapper.getEmail();
         //get client id
-//        long id_client = clientService.getIdClientByPhone(phone);
         long id_client = clientService.getIdClientByEmail(email);
         //Sending client's id
         return (id_client != 0)?
@@ -54,9 +54,11 @@ public class DeleteController {
 
         //get client id
         long id_client = clientService.getIdClientByEmail(email);
-
+        Client client = clientService.getClient(id_client);
         //sending email
         emailSender.sendEmailAboutDeleteReservation(email, service, date, time);
+        emailSender.sendAdminAboutDeleteReservation(client.getEmail(), client.getName(), client.getPhone(),
+                service, date, time);
         //remove service by client id and by service, date, time
         blinkService.removeReservation(service, date, time, id_client);
 

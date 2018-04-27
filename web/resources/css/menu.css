@@ -1,0 +1,78 @@
+.top-bar-container {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    opacity: 0.9;
+    background-color: #000000;
+}
+
+.menu-hover-lines {
+    padding: 0.2rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.35s ease;
+}
+
+.menu-hover-lines li a {
+    padding: 0.75rem 0;
+    color: rgba(230, 230, 230, 0.5);
+    position: relative;
+    margin-left: 1rem;
+}
+
+.menu-hover-lines li:first-child a {
+    margin-left: 0;
+}
+
+.menu-hover-lines li.active > a {
+    background-color: transparent;
+}
+
+.menu-hover-lines a:before,
+.menu-hover-lines a::after {
+    height: 3px;
+    position: absolute;
+    content: '';
+    transition: all 0.35s ease;
+    background-color: #b47cba;
+    width: 0;
+}
+
+.menu-hover-lines a::before {
+    top: 0;
+    left: 0;
+}
+
+.menu-hover-lines a::after {
+    bottom: 0;
+    right: 0;
+}
+
+.menu-hover-lines a:hover,
+.menu-hover-lines li.active > a {
+    color: #ffffff;
+    transition: all 0.35s ease;
+}
+
+.menu-hover-lines a:hover::before,
+.menu-hover-lines .active a::before,
+.menu-hover-lines a:hover::after,
+.menu-hover-lines .active a::after {
+    width: 100%;
+}
+
+.top-bar .top-bar-left, .top-bar .top-bar-right {
+    flex: none !important;
+}
+
+.top-bar-left .menu .show-for-small-only {
+    color: rgba(230, 230, 230, 0.5);
+}
+
+.top-bar-left .menu .show-for-small-only:hover {
+    cursor: pointer;
+    color: white;
+}

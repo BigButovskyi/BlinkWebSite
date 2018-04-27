@@ -23,6 +23,11 @@
         <param-value>WEB-INF/dispatcher-servlet.xml</param-value>
     </context-param>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/pages/underConstruction.jsp</location>
+    </error-page>
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
